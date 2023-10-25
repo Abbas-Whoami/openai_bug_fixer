@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python Code Bug Fixer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rainbow/1.2.0/themes/monokai.css">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        margin: 20px 0;
+        color: #333;
+    }
+
+    form {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 65px;
+        width: 80%;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: left;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #555;
+    }
+
+    #code-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        resize: vertical;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+    }
+
+    button {
+        background-color: #007BFF;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.2s;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    #output {
+        margin-top: 20px;
+    }
+
+    pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        background-color: #f9f9f9;
+        padding: 80px;
+        border: 11px solid #ccc;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        color: black
+    }
+</style>
+<body>
+    <h1>Python Code Bug Fixer</h1>
+    <form method="post">
+        <label for="code">Enter Python Code:</label>
+        <textarea id="code-input" name="code" rows="10" cols="80" placeholder="Enter Python code here..."></textarea>
+        <button type="submit">Fix Code</button>
+    </form>
+
+    <div id="output">
+        <pre id="fixed-code"></pre>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script>
+        const codeInput = document.getElementById('code-input');
+        const fixedCodeOutput = document.getElementById('fixed-code');
+
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const code = codeInput.value;
+            console.log(code)
+            const response = await fetch('/api', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code })
+            });
+
+            if (response.ok) {
+                const data = await response.text();
+                console.log(data)
+                fixedCodeOutput.innerText = data;
+            } else {
+                fixedCodeOutput.innerText = 'Failed to get a response.';
+            }
+            
+        });
+    </script>
+</body>
+</html>
